@@ -2,6 +2,15 @@ package mission1.boardGame
 
 import java.util.Scanner
 
+val fromToLadder: MutableMap<Int, Int> = mutableMapOf(
+    4 to 14, 8 to 30, 21 to 42, 28 to 76,
+    50 to 67, 71 to 92, 80 to 99
+)
+val fromToSnake: MutableMap<Int, Int> = mutableMapOf(
+    97 to 78, 95 to 56, 88 to 24, 62 to 18,
+    48 to 26, 36 to 6, 32 to 10
+)
+
 fun main() {
 
     var now = 1
@@ -32,15 +41,19 @@ fun move(curLoc: Int, dice: Int): Int {
     // 범위 벗어남
     if(curLoc+dice>100) return 100
 
-    val fromToLoc: MutableMap<Int, Int> = mutableMapOf(
-        4 to 14, 8 to 30, 21 to 42, 28 to 76,
-        50 to 67, 71 to 92, 80 to 99
-    )
+    if(fromToLadder.containsKey(curLoc)) return moveToLadder(curLoc)!!
+    else if(fromToSnake.containsKey(curLoc)) return moveToSnake(curLoc)!!
 
-    // fromToLoc[loc] : Map에서 loc의 키값을 가진 value를 거냄. (타입은 Int?)
-    // ?. : null 이 아니면 let 실행.
-    // it : 예약어는 x. Kotlin 람다에서 기본적으로 사용되는 매개변수 이름.
-    fromToLoc[loc]?.let { loc = it }
+    return loc
+}
 
+fun moveToLadder(curLoc: Int): Int? {
+    val loc = fromToLadder[curLoc]
+    println("$curLoc --사다리--> $loc")
+    return loc
+}
+fun moveToSnake(curLoc: Int): Int? {
+    val loc = fromToSnake[curLoc]
+    println("$curLoc --뱀--> $loc")
     return loc
 }
